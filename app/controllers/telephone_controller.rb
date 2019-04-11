@@ -4,14 +4,13 @@ require "google/cloud/speech"
 class TelephoneController < ApplicationController
     skip_before_action :verify_authenticity_token
 
-    BASE_URL = ""
+    BASE_URL = "http://bengreenberg.ngrok.io"
     GOOGLE_PROJECT_ID = "nexmo-rails-telephone-game"
     Translator = Google::Cloud::Translate.new project: GOOGLE_PROJECT_ID
     NexmoClient = Nexmo::Client.new(
         application_id: ENV['NEXMO_APPLICATION_ID'],
         private_key: File.read(ENV['NEXMO_PRIVATE_KEY'])
         ) 
-    NexmoClient.calls.instance_variable_set(:@host, 'api-us-1.nexmo.com')
     Converter = Google::Cloud::Speech.new
     LANGUAGES = [
         'ar',
@@ -42,7 +41,7 @@ class TelephoneController < ApplicationController
             },
             {
                 :action => 'talk',
-                :text => 'Please wait a moment...'
+                :text => 'Please wait a moment as your message runs through our sophisticated top secret linguistic algorithm...'
             },
             {
                 :action => 'conversation',
@@ -86,6 +85,7 @@ class TelephoneController < ApplicationController
             puts "Playing Transcribed Audio to Call"
             puts "Final Message: #{final_translation.text}"
             closing_msg = "Your message was translated through Arabic, Hebrew, Hindi, Kurdish, Russian, Turkish and Yiddish and is returned to you as: #{final_translation.text}"
+            NexmoClient.calls.instance_variable_set(:@host, 'api-us-1.nexmo.com')
             NexmoClient.calls.talk.start(@@uuid, text: closing_msg, voice_name: "Kimberly") if transcribed_text != ''
         end
     end
