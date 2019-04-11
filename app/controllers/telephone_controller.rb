@@ -74,22 +74,17 @@ class TelephoneController < ApplicationController
             end
 
             # Run Transcription Through Translations
-            final_translation = ''
-            current_translation = ''
-            first_time = true
+            puts "Translating Message"
+            translated_text = transcribed_text
             LANGUAGES.each do |language|
-                if current_translation = '' && first_time = true
-                    current_translation = Translator.translate(transcribed_text, to: language)
-                    first_time = false
-                else
-                    previous_translation = current_translation
-                    current_translation = Translator.translate(previous_translation, to: language)
-                end
+                translated_text = (translated_text == transcribed_text) ? 
+                Translator.translate(translated_text, to: language) : Translator.translate(translated_text.text, to: language)
             end
-            final_translation = Translator.translate(current_translation.text, to: 'en')
+            final_translation = Translator.translate(translated_text.text, to: 'en')
 
             # Play Final Text Back To Call
             puts "Playing Transcribed Audio to Call"
+            puts "Final Message: #{final_translation.text}"
             closing_msg = "Your message was translated through Arabic, Hebrew, Hindi, Kurdish, Russian, Turkish and Yiddish and is returned to you as: #{final_translation.text}"
             NexmoClient.calls.talk.start(@@uuid, text: closing_msg, voice_name: "Kimberly") if transcribed_text != ''
         end
