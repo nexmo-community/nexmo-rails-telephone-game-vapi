@@ -56,7 +56,7 @@ class TelephoneController < ApplicationController
         if params['recording_url']
             # Save Recording
             puts 'Saving Audio File'
-            VonageClient.save_file(params['recording_url'], 'recording.wav')
+            VonageClient.files.save(params['recording_url'], 'recording.wav')
 
             # Transcribe Recording
             transcribed_text = ''
