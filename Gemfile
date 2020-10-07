@@ -22,7 +22,7 @@ gem 'dotenv-rails'
 # Google Translate API
 gem 'google-cloud-translate'
 # Google Speech API
-gem 'google-cloud-speech'
+gem 'google-cloud-speech-v1'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
