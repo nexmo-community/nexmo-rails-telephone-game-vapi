@@ -201,8 +201,9 @@ GEM
       faraday (>= 0.17.3, < 2.0)
       jwt (>= 1.5, < 3.0)
       multi_json (~> 1.10)
-    sorbet-runtime (0.5.5937)
-    spring (2.1.1)
+    sorbet-runtime (0.5.5924)
+    spring (2.0.2)
+      activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
       spring (>= 1.2, < 3.0)
@@ -223,6 +224,10 @@ GEM
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
+    vonage (7.2.0)
+      nexmo-jwt (~> 0.1.1)
+      sorbet-runtime (~> 0.5)
+      zeitwerk (~> 2, >= 2.2)
     web-console (3.7.0)
       actionview (>= 5.0)
       activemodel (>= 5.0)
@@ -245,7 +250,6 @@ DEPENDENCIES
   google-cloud-translate
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
-  nexmo
   pg (>= 0.18, < 2.0)
   puma (~> 3.12)
   rails (~> 5.2.3)
@@ -255,10 +259,11 @@ DEPENDENCIES
   turbolinks (~> 5)
   tzinfo-data
   uglifier (>= 1.3.0)
+  vonage
   web-console (>= 3.3.0)
 
 RUBY VERSION
    ruby 2.5.3p105
 
 BUNDLED WITH
-   1.17.3
+   2.1.4
