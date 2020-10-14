@@ -74,23 +74,23 @@ class TelephoneController < ApplicationController
                 },
                 interim_results: true
             }
-            puts 'Converting Speech to Text with GCP Speech API'
-            stream = Converter.streaming_recognize(streaming_config)
+            puts "Converting Speech to Text with GCP Speech API"
+            input_stream = Gapic::StreamInput.new
+            input_stream.push({ streaming_config: streaming_config })
+            output_stream = Converter.streaming_recognize input_stream
             # Simulated streaming from a microphone
             # Stream bytes...
             while bytes_sent < bytes_total do
-                stream.send audio_content[bytes_sent, chunk_size]
+                input_stream.push({ audio_content: audio_content[bytes_sent, chunk_size] })
                 bytes_sent += chunk_size
                 sleep 1
             end
-            puts 'Stopped passing audio to be transcribed'
-            stream.stop
+            puts "Stopped passing audio to be transcribed"
+            input_stream.close
             # Wait until processing is complete...
-            stream.wait_until_complete!
-            puts 'Transcription processing complete'
-            results = stream.results
-            results.first.alternatives.each do |alternatives|
-               transcribed_text = alternatives.transcript
+            puts "Transcription processing complete"
+            output_stream.each do |alternatives|
+                transcribed_text = alternatives.transcript
             end
 
             # Run Transcription Through Translations
